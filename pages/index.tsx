@@ -1,17 +1,27 @@
+// 메인화면
+
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useRef } from "react";
-import styles from "../styles/Home.module.css";
+import { useRef, useState } from "react";
 import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
+
+// image
 import malddaggu from "../public/image/malddaggu.png";
 
-const Home: NextPage = () => {
-	const zzalRef = useRef();
+// css
+import styles from "../styles/Home.module.scss";
+import "../styles/sungmo.scss";
 
-	// 컴포넌트 다운로드 함수
-	const onDownloadBtn = () => {
+const Home: NextPage = () => {
+	const [first, setFirst] = useState("모코코가..");
+	const [last, setLast] = useState("말대꾸?");
+
+	const zzalRef = useRef<any>();
+
+	// 컴포넌트 다운로드 핸들러
+	const onDownloadHandler = () => {
 		const zRef = zzalRef.current;
 
 		domtoimage.toBlob(zRef).then((blob) => {
@@ -28,14 +38,16 @@ const Home: NextPage = () => {
 			</Head>
 
 			{/*  이미지 영역 */}
-			<section ref={zzalRef}>
-				<Image src={malddaggu} alt="말대꾸" />
-				<span>모코코가..</span>
-				<span>말대꾸?</span>
+			<section ref={zzalRef} className="zzal">
+				<Image src={malddaggu} alt="말대꾸" className="zzalImg" />
+				<span className="firstSpan">{first}</span>
+				<span className="secondSpan">{last}</span>
 			</section>
 
 			{/*  생성 버튼 */}
-			<button onClick={() => onDownloadBtn()}></button>
+			<button className="downBtn" onClick={onDownloadHandler}>
+				다운로드 받기
+			</button>
 		</div>
 	);
 };
